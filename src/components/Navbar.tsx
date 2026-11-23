@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, openMob
 
   const navItems = [
     { id: 'pos' as ActiveTab, label: 'Kasir (POS)', icon: ShoppingBag },
-    { id: 'menu' as ActiveTab, label: 'Menu Toko', icon: UtensilsCrossed },
+    { id: 'menu' as ActiveTab, label: 'Menu', icon: UtensilsCrossed },
     { id: 'orders' as ActiveTab, label: 'Laporan & Riwayat', icon: BarChart3 },
     { id: 'settings' as ActiveTab, label: 'Pengaturan', icon: Settings },
   ];
