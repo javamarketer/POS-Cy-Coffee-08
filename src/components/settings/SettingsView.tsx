@@ -7,7 +7,6 @@ import {
   FileUp,
   RotateCcw,
   Save,
-  Cloud,
   Users,
   UserPlus,
   Edit2,
@@ -468,7 +467,7 @@ export const SettingsView: React.FC = () => {
           </div>
         </div>
 
-        {/* RIGHT: BACKUP, RESTORE & CLOUDFLARE INFO (Col span 1) */}
+        {/* RIGHT: BACKUP & RESTORE JSON (Col span 1) */}
         <div className="space-y-5">
           {/* Backup & Restore JSON */}
           <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
@@ -515,27 +514,6 @@ export const SettingsView: React.FC = () => {
                 <RotateCcw className="w-4 h-4 text-rose-600" />
                 <span>Reset ke Default Pabrik</span>
               </button>
-            </div>
-          </div>
-
-          {/* Cloudflare Pages Deploy Info */}
-          <div className="bg-stone-900 text-stone-200 rounded-2xl p-5 shadow-sm space-y-3">
-            <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
-              <Cloud className="w-4 h-4" />
-              <span>Deploy ke Cloudflare</span>
-            </div>
-
-            <p className="text-xs text-stone-300 leading-relaxed">
-              Aplikasi ini 100% statis & bebas server backend rumit. Siap di-deploy langsung ke Cloudflare Pages.
-            </p>
-
-            <div className="bg-stone-950 p-2.5 rounded-xl border border-stone-800 font-mono text-[11px] text-stone-300 space-y-1">
-              <p className="text-emerald-400"># 1. Build</p>
-              <p>npm run build</p>
-              <p className="text-emerald-400 pt-1"># 2. Output directory</p>
-              <p className="text-emerald-300">dist</p>
-              <p className="text-emerald-400 pt-1"># 3. SPA Routing</p>
-              <p className="text-stone-400">_redirects sudah tersedia</p>
             </div>
           </div>
         </div>
