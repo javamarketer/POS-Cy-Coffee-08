@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { usePOS } from '../../context/POSContext';
 import { parseSafeNumber } from '../../utils/format';
+import { exportReportToExcel } from '../../utils/exportExcel';
 import {
   Store,
+  FileSpreadsheet,
   FileDown,
   FileUp,
   RotateCcw,
@@ -19,6 +21,8 @@ import {
 export const SettingsView: React.FC = () => {
   const {
     settings,
+    menu,
+    transactions,
     updateSettings,
     exportData,
     importData,
@@ -91,6 +95,23 @@ export const SettingsView: React.FC = () => {
   const handleDeleteCashier = (name: string) => {
     if (confirm(`Apakah Anda yakin ingin menghapus kasir "${name}"?`)) {
       deleteCashier(name);
+    }
+  };
+
+  const handleExportExcel = () => {
+    try {
+      if (transactions.length === 0) {
+        if (!confirm('Belum ada riwayat transaksi tersimpan. Tetap unduh file Excel berisi daftar katalog menu?')) {
+          return;
+        }
+      }
+      exportReportToExcel(transactions, menu, settings);
+      showToast('Laporan Excel (.xlsx) berhasil diunduh.', 'success');
+    } catch (err) {
+      showToast(
+        'Gagal mengunduh file Excel: ' + (err instanceof Error ? err.message : 'Error'),
+        'error'
+      );
     }
   };
 
@@ -467,18 +488,28 @@ export const SettingsView: React.FC = () => {
           </div>
         </div>
 
-        {/* RIGHT: BACKUP & RESTORE JSON (Col span 1) */}
+        {/* RIGHT: BACKUP & RESTORE (Col span 1) */}
         <div className="space-y-5">
-          {/* Backup & Restore JSON */}
+          {/* Backup & Restore */}
           <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
             <div>
-              <h3 className="font-bold text-stone-900 text-sm">Cadangan & Pemulihan (JSON)</h3>
+              <h3 className="font-bold text-stone-900 text-sm">Cadangan & Pemulihan</h3>
               <p className="text-xs text-stone-500 mt-0.5">
-                Simpan file cadangan transaksi, daftar kasir & menu ke komputer Anda
+                Download laporan rekap transaksi format Excel atau cadangan database JSON
               </p>
             </div>
 
             <div className="space-y-2">
+              {/* Tombol Download Laporan Excel */}
+              <button
+                type="button"
+                onClick={handleExportExcel}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-600 active:scale-[0.99] text-white text-xs font-bold transition shadow-sm shadow-emerald-950/10"
+              >
+                <FileSpreadsheet className="w-4 h-4 text-emerald-200" />
+                <span>Download Laporan Excel (.xlsx)</span>
+              </button>
+
               <button
                 type="button"
                 onClick={handleExportJson}

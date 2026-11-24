@@ -14,10 +14,12 @@ import {
   TrendingUp,
   Trash2,
   AlertTriangle,
+  FileSpreadsheet,
 } from 'lucide-react';
+import { exportReportToExcel } from '../../utils/exportExcel';
 
 export const OrderHistory: React.FC = () => {
-  const { transactions, clearAllTransactions, deleteTransaction } = usePOS();
+  const { transactions, menu, settings, clearAllTransactions, deleteTransaction, showToast } = usePOS();
 
   const [dateFilter, setDateFilter] = useState<'today' | '7days' | 'all'>('today');
   const [search, setSearch] = useState<string>('');
@@ -149,6 +151,29 @@ export const OrderHistory: React.FC = () => {
               Semua Periode
             </button>
           </div>
+
+          {/* Excel Export Button */}
+          <button
+            type="button"
+            disabled={filteredTransactions.length === 0}
+            onClick={() => {
+              try {
+                exportReportToExcel(filteredTransactions, menu, settings);
+                showToast('Laporan Excel (.xlsx) berhasil diunduh.', 'success');
+              } catch (err) {
+                showToast('Gagal mengunduh file Excel: ' + (err instanceof Error ? err.message : 'Error'), 'error');
+              }
+            }}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition ${
+              filteredTransactions.length === 0
+                ? 'border-stone-200 text-stone-300 bg-stone-50 cursor-not-allowed'
+                : 'border-emerald-300 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 hover:border-emerald-400 active:scale-95 shadow-2xs'
+            }`}
+            title="Download Laporan ke File Excel (.xlsx)"
+          >
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Ekspor Excel</span>
+          </button>
 
           {/* Reset All Transactions Button */}
           <button
